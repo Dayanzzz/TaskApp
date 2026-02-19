@@ -24,8 +24,15 @@ export function TaskCard({
   editing,
   actions,
 }: TaskCardProps) {
+  const isCompleted = task.status.toLowerCase() === "completed";
   return (
-    <li className="rounded-2xl border border-violet-100 bg-linear-to-br from-white to-violet-50 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+    <li
+      className={`rounded-2xl border p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md 
+        ${isCompleted 
+          ? "border-emerald-400 bg-[repeating-linear-gradient(135deg,#f3e8ff_0_10px,#f9fafb_10px_20px),repeating-linear-gradient(225deg,#bbf7d0_0_10px,transparent_10px_20px)] relative overflow-hidden" 
+          : "border-violet-100 bg-linear-to-br from-white to-violet-50"}`}
+    >
+
       <div className="flex items-start justify-between gap-3">
         <p className="font-semibold tracking-wide text-zinc-900">{task.title}</p>
         <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${getStatusClasses(task.status)}`}>

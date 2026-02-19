@@ -23,11 +23,6 @@ export const initialState: DashboardState = {
     error: null,
   },
   form: initialTaskFormData,
-  filters: {
-    priority: "All",
-    dueDate: "",
-    category: "All",
-  },
   editing: {
     editingTaskId: null,
     editStatus: "Open",
@@ -177,32 +172,6 @@ export function dashboardReducer(state: DashboardState, action: DashboardAction)
         },
       };
 
-    case "FILTER_SET_FIELD":
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          [action.payload.field]: action.payload.value,
-        },
-        ui: {
-          ...state.ui,
-          currentPage: 1,
-        },
-      };
-
-    case "FILTER_CLEAR":
-      return {
-        ...state,
-        filters: {
-          priority: "All",
-          dueDate: "",
-          category: "All",
-        },
-        ui: {
-          ...state.ui,
-          currentPage: 1,
-        },
-      };
 
     case "EDIT_START":
       return {

@@ -5,12 +5,9 @@ import { useRouter } from "next/navigation";
 import { AddTaskForm } from "./components/AddTaskForm";
 import { DashboardPagination } from "./components/DashboardPagination";
 import { DashboardTasksList } from "./components/DashboardTasksList";
-import { TaskFilters } from "./components/TaskFilters";
 import { dashboardApi, UnauthorizedApiError } from "./api";
 import { dashboardReducer, initialState } from "./dashboardReducer";
 import { useDashboardActions } from "./hooks/useDashboardActions";
-import { useDashboardFilteredTasks } from "./hooks/useDashboardFilteredTasks";
-import { useDashboardFilters } from "./hooks/useDashboardFilters";
 import { useDashboardForm } from "./hooks/useDashboardForm";
 import { useDashboardPagination } from "./hooks/useDashboardPagination";
 
@@ -64,14 +61,12 @@ export default function DashboardPage() {
     [handleUpdateTask, state.editing.editNotes, state.editing.editStatus],
   );
 
-  const { filterState, filterActions } = useDashboardFilters(state, dispatch);
-  const filteredTasks = useDashboardFilteredTasks(state);
 
   const setCurrentPage = useCallback((value: number) => {
     dispatch({ type: "UI_SET_CURRENT_PAGE", payload: value });
   }, []);
   const { paginatedTasks, totalPages, currentPage, hasPagination } = useDashboardPagination(
-    filteredTasks,
+    state.tasks,
     state.ui.currentPage,
     pageSize,
   );
@@ -88,10 +83,6 @@ export default function DashboardPage() {
             onCancel={onCancel}
           />
 
-          <TaskFilters
-            filters={filterState}
-            actions={filterActions}
-          />
 
         {state.ui.loading ? <p className="mt-6 text-zinc-600">Loading your tasks...</p> : null}
         {state.ui.error ? <p className="mt-6 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700">{state.ui.error}</p> : null}
@@ -120,9 +111,9 @@ export default function DashboardPage() {
           />
         ) : null}
 
-        {!state.ui.loading && !state.ui.error && filteredTasks.length === 0 ? (
+        {!state.ui.loading && !state.ui.error && paginatedTasks.length === 0 ? (
           <p className="mt-6 rounded-xl border border-violet-100 bg-violet-50 px-3 py-2 text-sm text-violet-700">
-            No tasks match your filters yet ✨
+            No tasks yet ✨
           </p>
         ) : null}
         </div>

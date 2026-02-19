@@ -34,11 +34,6 @@ export type DashboardState = {
 		error: string | null;
 	};
 	form: TaskFormData;
-	filters: {
-		priority: string;
-		dueDate: string;
-		category: string;
-	};
 	editing: {
 		editingTaskId: number | null;
 		editStatus: string;
@@ -60,8 +55,6 @@ export type DashboardAction =
 	| { type: "DELETE_TASK_START" }
 	| { type: "DELETE_TASK_SUCCESS"; payload: number }
 	| { type: "DELETE_TASK_ERROR"; payload: string }
-	| { type: "FILTER_SET_FIELD"; payload: { field: "priority" | "dueDate" | "category"; value: string } }
-	| { type: "FILTER_CLEAR" }
 	| { type: "EDIT_START"; payload: TaskItem }
 	| { type: "EDIT_CANCEL" }
 	| { type: "EDIT_SET_STATUS"; payload: string }
